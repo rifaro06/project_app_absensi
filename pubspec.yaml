@@ -1,0 +1,35 @@
+﻿name: project_app_absensi
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.1.0
+  shared_preferences: ^2.2.3
+  dio: ^5.4.3
+  geolocator: 14.1.0
+  geocoding: 5.0.0
+  google_maps_flutter: ^2.5.3
+  intl: ^0.19.0
+  retrofit: ^4.10.0
+  json_annotation: ^4.12.0
+  image_picker: ^1.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  retrofit_generator: ^10.2.11
+  json_serializable: ^6.14.1
+  build_runner: ^2.16.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
