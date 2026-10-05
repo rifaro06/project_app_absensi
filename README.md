@@ -1,6 +1,6 @@
-# project_app_absensi_baru
+# project_app_absensi
 
-A new Flutter project.
+Flutter project.
 
 ## Getting Started
 
