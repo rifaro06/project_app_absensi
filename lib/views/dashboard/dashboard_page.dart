@@ -187,7 +187,7 @@ class _DashboardPageState extends State<DashboardPage> {
         );
 
         if (!mounted) return;
-        AppSnackbar.showSuccess(context, 'Pengajuan izin berhasil dicatat!');
+        AppSnackbar.showSuccess(context, 'Pengajuan izin berhasil dicatat!!');
         await _fetchTodayAttendance();
       },
     );
