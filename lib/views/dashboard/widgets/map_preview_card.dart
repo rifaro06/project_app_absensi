@@ -152,30 +152,46 @@ class _MapPreviewCardState extends State<MapPreviewCard> {
             ),
           ),
 
-          // Baris Alamat
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Icon(
-                  Icons.place_rounded,
-                  size: 18,
-                  color: Colors.redAccent,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    widget.location?.address ??
-                        'Sedang mendeteksi titik koordinat...',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isDark ? Colors.white70 : Colors.black87,
-                      height: 1.3,
+          // Baris Alamat (Dapat ditekan untuk menyegarkan/mendeteksi ulang titik koordinat)
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
+              onTap: widget.isLoading ? null : widget.onRefresh,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.place_rounded,
+                      size: 18,
+                      color: Colors.redAccent,
                     ),
-                  ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        widget.location?.address ??
+                            'Sedang mendeteksi titik koordinat...',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isDark ? Colors.white70 : Colors.black87,
+                          height: 1.3,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Icon(
+                      Icons.refresh_rounded,
+                      size: 15,
+                      color: isDark ? Colors.white38 : Colors.black38,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ],

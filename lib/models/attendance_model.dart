@@ -102,7 +102,13 @@ class AttendanceModel {
       (status?.toLowerCase() == 'izin') ||
       (alasanIzin != null && alasanIzin!.trim().isNotEmpty);
 
-  bool get isCheckedIn => checkIn != null && checkIn!.trim().isNotEmpty;
+  bool get isCheckedIn =>
+      checkIn != null &&
+      checkIn!.trim().isNotEmpty &&
+      checkIn!.trim().toLowerCase() != 'null';
 
-  bool get isCheckedOut => checkOut != null && checkOut!.trim().isNotEmpty;
+  bool get isCheckedOut =>
+      checkOut != null &&
+      checkOut!.trim().isNotEmpty &&
+      checkOut!.trim().toLowerCase() != 'null';
 }

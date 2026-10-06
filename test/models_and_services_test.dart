@@ -11,6 +11,7 @@ import 'package:project_app_absensi/models/requests/register_request_model.dart'
 import 'package:project_app_absensi/models/responses/api_response_model.dart';
 import 'package:project_app_absensi/models/responses/attendance_response_model.dart';
 import 'package:project_app_absensi/models/responses/history_response_model.dart';
+import 'package:project_app_absensi/core/utils/date_helper.dart';
 import 'package:project_app_absensi/models/responses/profile_response_model.dart';
 
 void main() {
@@ -154,6 +155,24 @@ void main() {
         'data': true,
       });
       expect(apiRes.message, 'Sukses dihapus');
+    });
+
+    test('DateHelper correctly parses UTC date strings from MySQL/Laravel', () {
+      // 00:06:00 UTC should be 7 hours ahead in local WIB (07:06)
+      final dt = DateHelper.parseDateTime('2026-10-06 00:06:00');
+      expect(dt, isNotNull);
+      // In local time, dt should represent the exact instant in local zone
+      final formattedTime = DateHelper.formatTime('2026-10-06 00:06:00');
+      expect(formattedTime.contains('WIB'), true);
+
+      // Time only format
+      final formattedTimeOnly = DateHelper.formatTime('00:06:00');
+      expect(formattedTimeOnly.contains('WIB'), true);
+
+      // Null handling
+      expect(DateHelper.formatTime(null), '--:--');
+      expect(DateHelper.formatTime('null'), '--:--');
+      expect(DateHelper.formatIndonesianDate(null), '-');
     });
   });
 }

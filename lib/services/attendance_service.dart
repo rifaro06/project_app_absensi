@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../core/network/api_exception.dart';
 import '../core/network/dio_client.dart';
+import '../core/utils/date_helper.dart';
 import '../models/attendance_model.dart';
 import '../models/requests/check_in_request_model.dart';
 import '../models/requests/check_out_request_model.dart';
@@ -97,16 +98,15 @@ class AttendanceService {
     for (final item in history) {
       DateTime? recordDate;
       if (item.checkIn != null) {
-        recordDate = DateTime.tryParse(item.checkIn!);
+        recordDate = DateHelper.parseDateTime(item.checkIn);
       } else if (item.createdAt != null) {
-        recordDate = DateTime.tryParse(item.createdAt!);
+        recordDate = DateHelper.parseDateTime(item.createdAt);
       }
 
       if (recordDate != null) {
-        final localDate = recordDate.toLocal();
-        if (localDate.year == now.year &&
-            localDate.month == now.month &&
-            localDate.day == now.day) {
+        if (recordDate.year == now.year &&
+            recordDate.month == now.month &&
+            recordDate.day == now.day) {
           return item;
         }
       }

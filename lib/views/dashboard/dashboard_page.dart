@@ -292,13 +292,36 @@ class _DashboardPageState extends State<DashboardPage> {
                   // Tombol Masuk
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: (canCheckIn && !_isActionRunning)
-                          ? _handleCheckIn
-                          : null,
+                      onPressed: _isActionRunning
+                          ? null
+                          : () {
+                              if (canCheckIn) {
+                                _handleCheckIn();
+                              } else {
+                                if (isCheckedOut) {
+                                  AppSnackbar.showInfo(
+                                    context,
+                                    'Anda sudah menyelesaikan presensi masuk dan pulang hari ini.',
+                                  );
+                                } else if (isCheckedIn) {
+                                  AppSnackbar.showInfo(
+                                    context,
+                                    'Anda sudah melakukan presensi masuk hari ini.',
+                                  );
+                                } else if (isIzin) {
+                                  AppSnackbar.showInfo(
+                                    context,
+                                    'Anda sudah tercatat izin untuk hari ini.',
+                                  );
+                                }
+                              }
+                            },
                       icon: const Icon(Icons.login_rounded, size: 20),
                       label: const Text('Absen Masuk'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
+                        backgroundColor: canCheckIn
+                            ? AppColors.primary
+                            : AppColors.primary.withAlpha(120),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
@@ -313,13 +336,36 @@ class _DashboardPageState extends State<DashboardPage> {
                   // Tombol Keluar
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: (canCheckOut && !_isActionRunning)
-                          ? _handleCheckOut
-                          : null,
+                      onPressed: _isActionRunning
+                          ? null
+                          : () {
+                              if (canCheckOut) {
+                                _handleCheckOut();
+                              } else {
+                                if (isCheckedOut) {
+                                  AppSnackbar.showInfo(
+                                    context,
+                                    'Anda sudah menyelesaikan presensi pulang hari ini.',
+                                  );
+                                } else if (!isCheckedIn) {
+                                  AppSnackbar.showInfo(
+                                    context,
+                                    'Silakan lakukan presensi masuk terlebih dahulu sebelum absen pulang.',
+                                  );
+                                } else if (isIzin) {
+                                  AppSnackbar.showInfo(
+                                    context,
+                                    'Anda sudah tercatat izin hari ini, tidak perlu presensi pulang.',
+                                  );
+                                }
+                              }
+                            },
                       icon: const Icon(Icons.logout_rounded, size: 20),
                       label: const Text('Absen Pulang'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accentCoral,
+                        backgroundColor: canCheckOut
+                            ? AppColors.accentCoral
+                            : AppColors.accentCoral.withAlpha(120),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
@@ -335,15 +381,28 @@ class _DashboardPageState extends State<DashboardPage> {
 
               // Tombol Izin (Hanya aktif jika belum absen)
               OutlinedButton.icon(
-                onPressed: (canIzin && !_isActionRunning)
-                    ? _openIzinModal
-                    : null,
+                onPressed: _isActionRunning
+                    ? null
+                    : () {
+                        if (canIzin) {
+                          _openIzinModal();
+                        } else {
+                          AppSnackbar.showInfo(
+                            context,
+                            'Pengajuan izin hanya dapat dilakukan jika belum memiliki catatan presensi hari ini.',
+                          );
+                        }
+                      },
                 icon: const Icon(Icons.event_note_rounded, size: 18),
                 label: const Text('Ajukan Izin / Sakit'),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  side: const BorderSide(
-                    color: AppColors.primaryLight,
+                  foregroundColor: canIzin
+                      ? AppColors.primary
+                      : AppColors.primary.withAlpha(120),
+                  side: BorderSide(
+                    color: canIzin
+                        ? AppColors.primaryLight
+                        : AppColors.primaryLight.withAlpha(100),
                     width: 1.2,
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 12),
